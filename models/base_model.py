@@ -14,9 +14,9 @@ class BaseModel:
     """
 
     id = Column(String(60), nullable=False, primary_key=True)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow,
+    created_at = Column(DateTime, default=datetime.utcnow,
                         nullable=False)
-    updated_at = Column(DateTime, default=datetime.datetime.utcnow,
+    updated_at = Column(DateTime, default=datetime.utcnow,
                         nullable=False)
 
     def __init__(self, *args, **kwargs):
@@ -35,6 +35,9 @@ class BaseModel:
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if key != "__class__":
                     setattr(self, key, value)
+        if self.id is None:
+            self.id = str(uuid.uuid4())
+            self.created_at = self.updated_at = datetime.now()
 
 
     def __str__(self):
@@ -54,13 +57,8 @@ class BaseModel:
         """updates the public instance attribute updated_at to current
         """
 
-        if self.id is None:
-            self.id = str(uuid.uuid4())
-            self.created_at = self.updated_at = datetime.now()
-            models.storage.new(self)
-
-        else:
-            self.updated_at = datetime.now()
+        self.updated_at = datetime.now()
+        models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
