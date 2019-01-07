@@ -22,7 +22,7 @@ class FileStorage:
 
     def all(self, cls=None):
         """returns a dictionary
-        Args: 
+        Args:
             the class to filter
         Return:
             returns a dictionary of __object
@@ -37,7 +37,7 @@ class FileStorage:
 
     def new(self, obj):
         """sets __object to given obj
-        Args:
+        Keyword Args:
             obj: given object
         """
         if obj:
