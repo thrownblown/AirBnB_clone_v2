@@ -33,10 +33,6 @@ class DBStorage:
             passwd,
             host,
             database), pool_pre_ping=True)
-        Base.metadata.create_all(self.__engine)
-
-        Session = sessionmaker(bind=self.__engine)
-        self.__session = Session()
 
         if os.getenv('HBNB_ENV') == 'test':
             meta = MetaData()
@@ -49,50 +45,45 @@ class DBStorage:
         Return:
             returns a dictionary of __object
         """
-        filtered = {}
         if cls:
-            for k, v in self.__objects.items():
-                if type(v) == cls:
-                    filtered[k] = v
-            return filtered
-        return self.__objects
+            query = self.__session.query(cls).all()
+        else:
+            query = self.__session.query(User,
+                                         State,
+                                         City,
+                                         Amenity,
+                                         Place,
+                                         Review).all()
+        import pdb; pdb.set_trace()
+        key = "{}.{}".format(type(obj).__name__, obj.id)
+        self.__objects[key] = obj
+        return query
 
     def new(self, obj):
         """sets __object to given obj
         Args:
             obj: given object
         """
-        if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            self.__objects[key] = obj
+        self.__session.add(obj)
 
     def save(self):
-        """serialize the file path to JSON file path
+        """save the file into the database
         """
-        my_dict = {}
-        for key, value in self.__objects.items():
-            my_dict[key] = value.to_dict()
-        with open(self.__file_path, 'w', encoding="UTF-8") as f:
-            json.dump(my_dict, f)
+        self.__session.commit()
 
     def reload(self):
         """serialize the file path to JSON file path
         """
-        try:
-            with open(self.__file_path, 'r', encoding="UTF-8") as f:
-                for key, value in (json.load(f)).items():
-                    value = eval(value["__class__"])(**value)
-                    self.__objects[key] = value
-        except FileNotFoundError:
-            pass
+        Base.metadata.create_all(self.__engine)
+
+        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        self.__session = Session()
 
     def delete(self, obj=None):
         """deletes an object
         Keyword Args:
             obj: given object to be deleted
         """
-        if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            if key in self.__objects:
-                del self.__objects[key]
-                self.save()
+        if obj is None:
+            cls = type(obj)
+            self.__session.query(cls).filter(cls.id=obj.id).delete()
