@@ -29,11 +29,16 @@ class DBStorage:
         passwd = os.getenv('HBNB_MYSQL_PWD', "hbnb_dev_pwd")
         host = os.getenv('HBNB_MYSQL_HOST', "localhost")
         database = os.getenv('HBNB_MYSQL_DB', "hbnb_dev_db")
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
+
+        db_str = 'mysql+mysqldb://{}:{}@{}/{}'.format(
             user,
             passwd,
             host,
-            database), pool_pre_ping=True)
+            database)
+
+        import pdb; pdb.set_trace()
+
+        self.__engine = create_engine(db_str, pool_pre_ping=True)
 
         if os.getenv('HBNB_ENV') == 'test':
             meta = MetaData()
