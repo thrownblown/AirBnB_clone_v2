@@ -2,10 +2,11 @@
 """SQLAlchemy storage module
 """
 
-import sqlalchemy, json, os
+import json
+import os
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, MetaData
-from models.base_model import BaseModel, Base
+from models.base_model import Base
 from models.user import User
 from models.state import State
 from models.city import City
@@ -54,9 +55,8 @@ class DBStorage:
                                          Amenity,
                                          Place,
                                          Review).all()
-        import pdb; pdb.set_trace()
-        key = "{}.{}".format(type(obj).__name__, obj.id)
-        self.__objects[key] = obj
+        # key = "{}.{}".format(type(obj).__name__, obj.id)
+        # self.__objects[key] = obj
         return query
 
     def new(self, obj):

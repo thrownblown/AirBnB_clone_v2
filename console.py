@@ -47,7 +47,7 @@ class HBNBCommand(cmd.Cmd):
 
             for item in my_list:
                 item = item.split('=')
-                item[1 ].replace('_', ' ')
+                item[1].replace('_', ' ')
                 item = '='.join(item)
 
             my_list = ", ".join(my_list)

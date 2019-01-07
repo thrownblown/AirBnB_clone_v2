@@ -3,10 +3,11 @@
 import uuid
 import models
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
+
 
 class BaseModel:
     """This class will defines all common attributes/methods
@@ -73,7 +74,6 @@ class BaseModel:
         if "_sa_instance_state" in my_dict:
             del my_dict["_sa_instance_state"]
         return my_dict
-
 
         def delete(self):
             """delethe the current instance from the storage
