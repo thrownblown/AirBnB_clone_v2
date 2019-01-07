@@ -25,9 +25,12 @@ class FileStorage:
         Return:
             returns a dictionary of __object
         """
+        filtered = {}
         if cls:
-            return {k: v for (k, v) in self.__objects.items()
-                    if cls.__name__ in k}
+            for k, v in self.__objects.items():
+                if cls.__name__ in k:
+                    filtered[k] = v
+            return filtered
         return self.__objects
 
     def new(self, obj):
