@@ -5,7 +5,7 @@
 import sqlalchemy, json, os
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, MetaData
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
 from models.city import City
@@ -25,7 +25,7 @@ class DBStorage:
         """the init method
         """
         user = os.getenv('HBNB_MYSQL_USER', "hbnb_dev")
-        passwd = os..getenv('HBNB_MYSQL_PWD', "hbnb_dev_pwd")
+        passwd = os.getenv('HBNB_MYSQL_PWD', "hbnb_dev_pwd")
         host = os.getenv('HBNB_MYSQL_HOST', "localhost")
         database = os.getenv('HBNB_MYSQL_DB', "hbnb_dev_db")
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
@@ -38,7 +38,7 @@ class DBStorage:
         Session = sessionmaker(bind=self.__engine)
         self.__session = Session()
 
-        if os.getenv('HBNB_ENV') == test:
+        if os.getenv('HBNB_ENV') == 'test':
             meta = MetaData()
             meta.drop_all()
 
