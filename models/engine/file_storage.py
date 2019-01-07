@@ -22,6 +22,8 @@ class FileStorage:
 
     def all(self, cls=None):
         """returns a dictionary
+        Args: 
+            the class to filter
         Return:
             returns a dictionary of __object
         """
@@ -66,4 +68,5 @@ class FileStorage:
         """deletes an object
         """
         key = "{}.{}".format(type(obj).__name__, obj.id)
-        del self.__objects[key]
+        if key in self.__objects:
+            del self.__objects[key]
