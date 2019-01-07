@@ -30,7 +30,7 @@ class FileStorage:
         filtered = {}
         if cls:
             for k, v in self.__objects.items():
-                if cls.__name__ in k:
+                if type(v) == cls:
                     filtered[k] = v
             return filtered
         return self.__objects
@@ -69,6 +69,8 @@ class FileStorage:
         Keyword Args:
             obj: given object to be deleted
         """
-        key = "{}.{}".format(type(obj).__name__, obj.id)
-        if key in self.__objects:
-            del self.__objects[key]
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            if key in self.__objects:
+                del self.__objects[key]
+                self.save()
