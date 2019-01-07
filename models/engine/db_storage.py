@@ -36,8 +36,6 @@ class DBStorage:
             host,
             database)
 
-        import pdb; pdb.set_trace()
-
         self.__engine = create_engine(db_str, pool_pre_ping=True)
 
         if os.getenv('HBNB_ENV') == 'test':
