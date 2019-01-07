@@ -86,4 +86,4 @@ class DBStorage:
         """
         if obj is None:
             cls = type(obj)
-            self.__session.query(cls).filter(cls.id=obj.id).delete()
+            self.__session.query(cls).filter(id=obj.id).delete()
