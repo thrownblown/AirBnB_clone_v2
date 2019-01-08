@@ -1,8 +1,11 @@
 #!/usr/bin/python3
 """This is the amenity class"""
+
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
+from .place import place_amenity
+
 
 class Amenity(BaseModel, Base):
     """This is the class for Amenity
@@ -11,15 +14,14 @@ class Amenity(BaseModel, Base):
     """
     __tablename__ = 'amenities'
     name = Column('name', String(128), nullable=False)
+    place_amenities = relationship("Place", secondary=place_amenity,
+                                   viewonly=False, back_populates="amenities")
 
-    place_amenities = relationship("Place", secondary=place_amenities,
-                                   viewonly=False, back_populate="Place")
+    # @property
+    # def amenities(self):
+    #     return self.amenities
 
-    @property
-    def amenities(self):
-        return self.amenities
-
-    @amenities.setter
-    def amenities(self, amenities):
-        if
-        self.amenities = amenities
+    # @amenities.setter
+    # def amenities(self, amenities):
+    #     if
+    #     self.amenities = amenities

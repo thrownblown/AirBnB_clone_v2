@@ -8,7 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 metadata = Base.metadata
-place_amenities = Table('association', metadata,
+place_amenity = Table('association', metadata,
                 Column('place_id',
                         String(60),
                         primary_key=True,
@@ -19,7 +19,6 @@ place_amenities = Table('association', metadata,
                         primary_key=True,
                         nullable=False)
                 )
-# metadata.create_all()
 
 class Place(BaseModel, Base):
     """This is the class for Place
@@ -51,7 +50,7 @@ class Place(BaseModel, Base):
                             nullable=False)
     latitude = Column('latitude', Float, default=0, nullable=False)
     longitude = Column('longitude', Float, default=0, nullable=False)
-    place_amenity = relationship("Amenity", secondary=place_amenities,
+    amenities = relationship("Amenity", secondary=place_amenity,
                             back_populates='places', viewonly=False)
 
     if os.getenv('HBNB_TYPE_STORAGE') != 'db':
