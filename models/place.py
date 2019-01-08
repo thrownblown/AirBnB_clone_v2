@@ -1,11 +1,11 @@
-#!/usr/bin/python3
+xc#!/usr/bin/python3
 """This is the place class"""
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from models.base_model import BaseModel, Base
 from sqlalchemy.ext.declarative import declarative_base
 
 
-class Place(BaseModel):
+class Place(BaseModel, Base):
     """This is the class for Place
     Attributes:
         city_id: city id
