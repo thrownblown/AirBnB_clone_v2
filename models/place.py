@@ -1,4 +1,4 @@
-xc#!/usr/bin/python3
+#!/usr/bin/python3
 """This is the place class"""
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from models.base_model import BaseModel, Base
@@ -21,10 +21,10 @@ class Place(BaseModel, Base):
         amenity_ids: list of Amenity ids
     """
     __tablename__ = 'places'
-    city_id = Column('city_id', String(60), nullable=False,
-                     ForeignKey('cities.id'))
-    user_id = Column('user_id', String(60), nullable=False,
-                     ForeignKey('users.id'))
+    city_id = Column('city_id', String(60),
+                     ForeignKey('cities.id'), nullable=False)
+    user_id = Column('user_id', String(60),
+                     ForeignKey('users.id'), nullable=False)
     name = Column('name', String(128), nullable=False)
     description = Column('description', String(1024))
     number_rooms = Column('number_rooms', Integer, default=0, nullable=False)
@@ -34,5 +34,5 @@ class Place(BaseModel, Base):
     price_by_night = Column('price_by_night', Integer, default=0,
                             nullable=False)
     latitude = Column('latitude', Float, default=0, nullable=False)
-    longitude = Column('latitude', Float, default=0, nullable=False)
+    longitude = Column('longitude', Float, default=0, nullable=False)
     amenity_ids = []
