@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This is the state class"""
+import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
@@ -21,5 +22,5 @@ class State(BaseModel, Base):
         def cities(self):
             """ cities getter from FS
             """
-            objs = storage.all(City)
+            objs = models.storage.all(City)
             return ([c for c in objs if c.state_id == self.id])
