@@ -1,15 +1,19 @@
 #!/usr/bin/python3
 """This is the review class"""
+from sqlalchemy import Column, String
 from models.base_model import BaseModel
+from sqlalchemy.ext.declarative import declarative_base
 
-
-class Review(BaseModel):
+class Review(BaseModel, Base):
     """This is the class for Review
     Attributes:
         place_id: place id
         user_id: user id
         text: review description
     """
-    place_id = ""
-    user_id = ""
-    text = ""
+    __tablename__ = 'reviews'
+    place_id = Column('place_id', String(60), nullable=False,
+                      ForeignKey('places.id'))
+    user_id = Column('user_id', String(60), nullable=False,
+                     ForeignKey('users.id'))
+    text = Column('text', String(1024), nullable=False)
