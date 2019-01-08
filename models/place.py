@@ -58,6 +58,7 @@ class Place(BaseModel, Base):
         def amenities(self):
             """ amenities getter for FS
             """
-            objs = storage.all(City)
-            return ([c for c in objs if c.state_id == self.id])
+            # objs = storage.all(City)
+            # return ([c for c in objs if c.state_id == self.id])
+            pass
 
