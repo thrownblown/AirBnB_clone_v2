@@ -36,8 +36,6 @@ class DBStorage:
             host,
             database)
 
-        import pdb; pdb.set_trace()
-
         self.__engine = create_engine(db_str, pool_pre_ping=True)
 
         if os.getenv('HBNB_ENV') == 'test':
@@ -51,18 +49,23 @@ class DBStorage:
         Return:
             returns a dictionary of __object
         """
+        ret_dict = {}
         if cls:
             query = self.__session.query(cls).all()
         else:
-            query = self.__session.query(User,
-                                         State,
-                                         City,
-                                         Amenity,
-                                         Place,
-                                         Review).all()
-        # key = "{}.{}".format(type(obj).__name__, obj.id)
-        # self.__objects[key] = obj
-        return query
+            query = []
+            query += self.__session.query(City).all()
+            query += self.__session.query(State).all()
+            # query += self.__session.query(User).all()
+            # query += self.__session.query(Amenity).all()
+            # query += self.__session.query(Place).all()
+            # query += self.__session.query(Review).all()
+
+        for obj in query:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            ret_dict[key] = obj
+
+        return ret_dict
 
     def new(self, obj):
         """sets __object to given obj

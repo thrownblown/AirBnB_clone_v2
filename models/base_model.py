@@ -38,6 +38,7 @@ class BaseModel:
                     setattr(self, key, value)
         if self.id is None:
             self.created_at = self.updated_at = datetime.now()
+        self.save()
 
     def __str__(self):
         """returns a string
