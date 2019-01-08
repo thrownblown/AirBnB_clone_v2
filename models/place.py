@@ -36,3 +36,11 @@ class Place(BaseModel, Base):
     latitude = Column('latitude', Float, default=0, nullable=False)
     longitude = Column('longitude', Float, default=0, nullable=False)
     amenity_ids = []
+
+    metadata = Base.metadata
+    place_amenity = Table('association', metadata, Column('place_id',
+                                                          String(60),
+                                                          primary_key=True,
+                                                          nullable=False)),
+    Column('amenity_id', String(60), ForeignKey="amenities.id",
+           primary_key=True, nullable=False)))
