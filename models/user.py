@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This is the user class"""
+from sqlalchemy import Column, String
 from models.base_model import BaseModel, Base
 
 
