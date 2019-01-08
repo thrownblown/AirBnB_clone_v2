@@ -39,7 +39,7 @@ class DBStorage:
         self.__engine = create_engine(db_str, pool_pre_ping=True)
 
         if os.getenv('HBNB_ENV') == 'test':
-            meta = MetaData()
+            meta = MetaData(self.__engine)
             meta.drop_all()
 
     def all(self, cls=None):
@@ -56,10 +56,10 @@ class DBStorage:
             query = []
             query += self.__session.query(City).all()
             query += self.__session.query(State).all()
-            # query += self.__session.query(User).all()
-            # query += self.__session.query(Amenity).all()
-            # query += self.__session.query(Place).all()
-            # query += self.__session.query(Review).all()
+            query += self.__session.query(User).all()
+            query += self.__session.query(Amenity).all()
+            query += self.__session.query(Place).all()
+            query += self.__session.query(Review).all()
 
         for obj in query:
             key = "{}.{}".format(type(obj).__name__, obj.id)
