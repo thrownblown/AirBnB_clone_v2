@@ -20,8 +20,8 @@ class User(BaseModel, Base):
     password = Column('password', String(128), nullable=False)
     first_name = Column('first_name', String(128), nullable=False, default='John')
     last_name = Column('last_name', String(128), nullable=False, default='Doe')
-    places = relationship("Place", backref="user")
-    reviews = relationship("Review", backref="user")
+    places = relationship("Place", backref="user", cascade="all, delete")
+    reviews = relationship("Review", backref="user", cascade="all, delete")
 
     if os.getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
