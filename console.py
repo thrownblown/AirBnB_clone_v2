@@ -46,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
             my_list = my_list[1:]
             for item in my_list:
                 item = item.split("=")
-                if item[1][1] == '"' and item[1][-1] == '"':
+                if '"' in item[1] and item[1][1] == '"' and item[1][-1] == '"':
                     if '"' in item[1]:
                         item[1] = item[1][1:-1]
                         item[1].replace('"', '\"')
