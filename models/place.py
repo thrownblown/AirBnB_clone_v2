@@ -56,11 +56,17 @@ class Place(BaseModel, Base):
     longitude = Column('longitude', Float, default=0, nullable=False)
     amenities = relationship("Amenity", secondary=place_amenity,
                             backref='places', viewonly=False)
-
+    reviews = relationship("Review", backref="user")
     if os.getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def amenities(self):
             """ amenities getter for FS
             """
             objs = models.storage.all(Amenity)
-            return ([c for c in objs if c.state_id == self.id])
+            return ([a for a in objs if a.amenity_id == self.id])
+        @property
+        def reviews(self):
+            """ review getter from FS
+            """
+            objs = models.storage.all(Review)
+            return ([r for r in objs if r.place_id == self.id])
