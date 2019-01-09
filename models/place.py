@@ -24,6 +24,7 @@ place_amenity = Table('place_amenity', metadata,
                         nullable=False)
                 )
 
+
 class Place(BaseModel, Base):
     """This is the class for Place
     Attributes:
@@ -54,20 +55,20 @@ class Place(BaseModel, Base):
                             nullable=False)
     latitude = Column('latitude', Float, default=0, nullable=False)
     longitude = Column('longitude', Float, default=0, nullable=False)
-    reviews = relationship("Review", cascade="all, delete", backref="place")
+    # reviews = relationship("Review", cascade="all, delete", backref="place")
     amenities = relationship("Amenity", secondary=place_amenity,
                             backref='places', viewonly=False)
-    if os.getenv('HBNB_TYPE_STORAGE') != 'db':
-        @property
-        def amenities(self):
-            """ amenities getter for FS
-            """
-            objs = models.storage.all(Amenity)
-            return ([a for a in objs if a.amenity_id == self.id])
+    # if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+    #     @property
+    #     def amenities(self):
+    #         """ amenities getter for FS
+    #         """
+    #         objs = models.storage.all(Amenity)
+    #         return ([a for a in objs if a.amenity_id == self.id])
 
-        @property
-        def reviews(self):
-            """ review getter from FS
-            """
-            objs = models.storage.all(Review)
-            return ([r for r in objs if r.place_id == self.id])
+    #     @property
+    #     def reviews(self):
+    #         """ review getter from FS
+    #         """
+    #         objs = models.storage.all(Review)
+    #         return ([r for r in objs if r.place_id == self.id])
