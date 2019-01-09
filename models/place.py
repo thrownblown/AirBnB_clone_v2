@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 """This is the place class"""
 import os
+import models
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from models.amenity import Amenity
+
 
 
 metadata = Base.metadata
@@ -59,7 +62,5 @@ class Place(BaseModel, Base):
         def amenities(self):
             """ amenities getter for FS
             """
-            # objs = storage.all(City)
-            # return ([c for c in objs if c.state_id == self.id])
-            pass
-
+            objs = models.storage.all(Amenity)
+            return ([c for c in objs if c.state_id == self.id])
