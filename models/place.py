@@ -7,6 +7,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from models.amenity import Amenity
+from models.review import Review
 
 
 
@@ -54,9 +55,9 @@ class Place(BaseModel, Base):
                             nullable=False)
     latitude = Column('latitude', Float, default=0, nullable=False)
     longitude = Column('longitude', Float, default=0, nullable=False)
+    reviews = relationship("Review", backref="place")
     amenities = relationship("Amenity", secondary=place_amenity,
                             backref='places', viewonly=False)
-    reviews = relationship("Review", backref="user")
     if os.getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def amenities(self):
@@ -64,6 +65,7 @@ class Place(BaseModel, Base):
             """
             objs = models.storage.all(Amenity)
             return ([a for a in objs if a.amenity_id == self.id])
+
         @property
         def reviews(self):
             """ review getter from FS
