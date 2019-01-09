@@ -10,7 +10,6 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-
 metadata = Base.metadata
 place_amenity = Table('place_amenity', metadata,
                 Column('place_id',
