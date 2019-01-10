@@ -49,9 +49,9 @@ class HBNBCommand(cmd.Cmd):
                 if '"' in item[1] and item[1][1] == '"' and item[1][-1] == '"':
                     if '"' in item[1]:
                         item[1] = item[1][1:-1]
-                        item[1].replace('"', '\"')
+                        item[1] = item[1].replace('"', '\"')
                         item[1] = '"{}"'.format(item[1])
-                    item[1].replace("_", " ")
+                    item[1] = item[1].replace("_", " ")
                     item = "=".join(item)
 
             my_list = ", ".join(my_list)
