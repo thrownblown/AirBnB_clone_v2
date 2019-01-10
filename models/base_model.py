@@ -37,7 +37,10 @@ class BaseModel:
                 if key != "__class__":
                     setattr(self, key, value)
         if self.id is None:
+            self.id = str(uuid.uuid4())
             self.created_at = self.updated_at = datetime.now()
+        else:
+            self.updated_at = datetime.now()
         self.save()
 
     def __str__(self):
@@ -46,7 +49,7 @@ class BaseModel:
             returns a string of class name, id, and dictionary
         """
         return "[{}] ({}) {}".format(
-            type(self).__name__, self.id, self.__dict__)
+            type(self).__name__, self.id, self.to_dict())
 
     def __repr__(self):
         """return a string representaion
@@ -56,11 +59,7 @@ class BaseModel:
     def save(self):
         """updates the public instance attribute updated_at to current
         """
-        if self.id is None:
-            self.id = str(uuid.uuid4())
-            models.storage.new(self)
-        else:
-            self.updated_at = datetime.now()
+        models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
