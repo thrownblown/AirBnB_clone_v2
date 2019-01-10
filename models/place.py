@@ -42,33 +42,33 @@ class Place(BaseModel, Base):
     """
     __tablename__ = 'places'
     city_id = Column('city_id', String(60),
-                    ForeignKey('cities.id'), nullable=False)
+                     ForeignKey('cities.id'), nullable=False)
     user_id = Column('user_id', String(60),
-                    ForeignKey('users.id'), nullable=False)
+                     ForeignKey('users.id'), nullable=False)
     name = Column('name', String(128), nullable=False)
     description = Column('description', String(1024))
     number_rooms = Column('number_rooms', Integer, default=0, nullable=False)
     number_bathrooms = Column('number_bathroom', Integer, default=0,
-                    nullable=False)
+                              nullable=False)
     max_guest = Column('max_guest', Integer, default=0, nullable=False)
     price_by_night = Column('price_by_night', Integer, default=0,
                             nullable=False)
     latitude = Column('latitude', Float, default=0, nullable=False)
     longitude = Column('longitude', Float, default=0, nullable=False)
-    # reviews = relationship("Review", cascade="all, delete", backref="place")
+    reviews = relationship("Review", cascade="all, delete", backref="place")
     amenities = relationship("Amenity", secondary=place_amenity,
-                            backref='places', viewonly=False)
-    # if os.getenv('HBNB_TYPE_STORAGE') != 'db':
-    #     @property
-    #     def amenities(self):
-    #         """ amenities getter for FS
-    #         """
-    #         objs = models.storage.all(Amenity)
-    #         return ([a for a in objs if a.amenity_id == self.id])
+                             backref='places', viewonly=False)
+    if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+        @property
+        def amenities(self):
+            """ amenities getter for FS
+            """
+            objs = models.storage.all(Amenity)
+            return ([a for a in objs if a.amenity_id == self.id])
 
-    #     @property
-    #     def reviews(self):
-    #         """ review getter from FS
-    #         """
-    #         objs = models.storage.all(Review)
-    #         return ([r for r in objs if r.place_id == self.id])
+        @property
+        def reviews(self):
+            """ review getter from FS
+            """
+            objs = models.storage.all(Review)
+            return ([r for r in objs if r.place_id == self.id])
