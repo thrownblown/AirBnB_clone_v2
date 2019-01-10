@@ -41,20 +41,18 @@ class Place(BaseModel, Base):
         amenity_ids: list of Amenity ids
     """
     __tablename__ = 'places'
-    city_id = Column('city.id', String(60),
-                     ForeignKey('cities.id'), nullable=False)
-    user_id = Column('user.id', String(60),
-                     ForeignKey('users.id'), nullable=False)
-    name = Column('name', String(128), nullable=False)
-    description = Column('description', String(1024))
-    number_rooms = Column('number_rooms', Integer, default=0, nullable=False)
-    number_bathrooms = Column('number_bathroom', Integer, default=0,
+    city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
+    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+    name = Column(String(128), nullable=False)
+    description = Column(String(1024))
+    number_rooms = Column(Integer, default=0, nullable=False)
+    number_bathrooms = Column(Integer, default=0,
                               nullable=False)
-    max_guest = Column('max_guest', Integer, default=0, nullable=False)
-    price_by_night = Column('price_by_night', Integer, default=0,
+    max_guest = Column(Integer, default=0, nullable=False)
+    price_by_night = Column(Integer, default=0,
                             nullable=False)
-    latitude = Column('latitude', Float, nullable=False)
-    longitude = Column('longitude', Float, nullable=False)
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
     reviews = relationship("Review", cascade="all, delete", backref="place")
     amenities = relationship("Amenity", secondary=place_amenity,
                              backref='places', viewonly=False)
