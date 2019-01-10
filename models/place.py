@@ -53,8 +53,8 @@ class Place(BaseModel, Base):
     max_guest = Column('max_guest', Integer, default=0, nullable=False)
     price_by_night = Column('price_by_night', Integer, default=0,
                             nullable=False)
-    latitude = Column('latitude', Float, default=0, nullable=False)
-    longitude = Column('longitude', Float, default=0, nullable=False)
+    latitude = Column('latitude', Float, nullable=False)
+    longitude = Column('longitude', Float, nullable=False)
     reviews = relationship("Review", cascade="all, delete", backref="place")
     amenities = relationship("Amenity", secondary=place_amenity,
                              backref='places', viewonly=False)
