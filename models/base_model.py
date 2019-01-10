@@ -41,7 +41,6 @@ class BaseModel:
             self.created_at = self.updated_at = datetime.now()
         else:
             self.updated_at = datetime.now()
-        self.save()
 
     def __str__(self):
         """returns a string
@@ -52,7 +51,7 @@ class BaseModel:
             type(self).__name__, self.id, self.__dict__)
 
     def __repr__(self):
-        """return a string representaion
+        """return a string representation
         """
         return self.__str__()
 
