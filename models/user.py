@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 """This is the user class"""
+import os
+import models
+from models import Review
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 from sqlalchemy.ext.declarative import declarative_base
-import os
-import models
+
 
 class User(BaseModel, Base):
     """This is the class for user
@@ -18,8 +20,8 @@ class User(BaseModel, Base):
     __tablename__ = 'users'
     email = Column('email', String(128), nullable=False)
     password = Column('password', String(128), nullable=False)
-    first_name = Column('first_name', String(128), nullable=False, default='John')
-    last_name = Column('last_name', String(128), nullable=False, default='Doe')
+    first_name = Column('first_name', String(128), nullable=False)
+    last_name = Column('last_name', String(128), nullable=False)
     places = relationship("Place", backref="user", cascade="all, delete")
     reviews = relationship("Review", backref="user", cascade="all, delete")
 
