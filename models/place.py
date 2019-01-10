@@ -1,19 +1,28 @@
 #!/usr/bin/python3
 """This is the place class"""
 import os
-from models.base_model import BaseModel, Base
-from models.city import City
-from models.user import User
-from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
-from sqlalchemy.orm import relationship
-from os import environ as env
 import models
+from models.review import Review
+from models.amenity import Amenity
+from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
+from models.base_model import BaseModel, Base
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 
 
-place_amenity = Table('place_amenity', Base.metadata,
-                      Column('place_id', String(60), ForeignKey('places.id')),
-                      Column('amenity_id', String(60),
-                             ForeignKey('amenities.id')))
+metadata = Base.metadata
+place_amenity = Table('place_amenity', metadata,
+                      Column('place_id',
+                             String(60),
+                             ForeignKey("places.id"),
+                             primary_key=True,
+                             nullable=False),
+                      Column('amenity_id',
+                             String(60),
+                             ForeignKey("amenities.id"),
+                             primary_key=True,
+                             nullable=False)
+                      )
 
 
 class Place(BaseModel, Base):
@@ -32,49 +41,34 @@ class Place(BaseModel, Base):
         amenity_ids: list of Amenity ids
     """
     __tablename__ = 'places'
+    city_id = Column('city.id', String(60),
+                     ForeignKey('cities.id'), nullable=False)
+    user_id = Column('user.id', String(60),
+                     ForeignKey('users.id'), nullable=False)
+    name = Column('name', String(128), nullable=False)
+    description = Column('description', String(1024))
+    number_rooms = Column('number_rooms', Integer, default=0, nullable=False)
+    number_bathrooms = Column('number_bathroom', Integer, default=0,
+                              nullable=False)
+    max_guest = Column('max_guest', Integer, default=0, nullable=False)
+    price_by_night = Column('price_by_night', Integer, default=0,
+                            nullable=False)
+    latitude = Column('latitude', Float, nullable=False)
+    longitude = Column('longitude', Float, nullable=False)
+    reviews = relationship("Review", cascade="all, delete", backref="place")
+    amenities = relationship("Amenity", secondary=place_amenity,
+                             backref='places', viewonly=False)
+    if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+        @property
+        def amenities(self):
+            """ amenities getter for FS
+            """
+            objs = models.storage.all(Amenity)
+            return ([a for a in objs if a.place_id == self.id])
 
-    city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
-    user_id = Column(String(60), ForeignKey('users.id', ondelete="CASCADE"),
-                     nullable=False)
-    name = Column(String(128), nullable=False)
-    description = Column(String(1024), nullable=True)
-    number_rooms = Column(Integer, nullable=False, default=0)
-    number_bathrooms = Column(Integer, nullable=False, default=0)
-    max_guest = Column(Integer, nullable=False, default=0)
-    price_by_night = Column(Integer, nullable=False, default=0)
-    latitude = Column(Float)
-    longitude = Column(Float)
-
-    # For DBStorage
-    __amenities = relationship("Amenity", secondary='place_amenity',
-                               viewonly=False, backref='place')
-
-    # For FileStorage
-    __reviews = relationship("Review",
-                             cascade="all, delete", backref="place")
-
-    @property
-    def reviews(self):
-        """getter for reviews of theis placs
-           only for file storage"""
-        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-            return self.__reviews
-        else:
-            lst = []
-            for k, v in models.storage.all(Review).items():
-                if v.place_id == self.id:
-                    lst += [v]
-            return lst
-
-    @property
-    def amenities(self):
-        """getter for amenities of theis placs
-           only for file storage"""
-        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-            return self.__amenities
-        else:
-            lst = []
-            for k, v in models.storage.all(Amenity).items():
-                if v.place_id == self.id:
-                    lst += [v]
-            return lst
+        @property
+        def reviews(self):
+            """ review getter from FS
+            """
+            objs = models.storage.all(Review)
+            return ([r for r in objs if r.place_id == self.id])
