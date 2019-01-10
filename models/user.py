@@ -2,7 +2,7 @@
 """This is the user class"""
 import os
 import models
-from models import Review
+from models.review import Review
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base

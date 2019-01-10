@@ -2,12 +2,12 @@
 """This is the place class"""
 import os
 import models
+from models.review import Review
+from models.amenity import Amenity
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from models.amenity import Amenity
-from models.review import Review
 
 
 metadata = Base.metadata
