@@ -14,10 +14,10 @@ mkdir -p /data/web_static/releases/test/
 echo "<html><head></head><body>H3110 Holberton School !</body></html>" > ~/temp.html
 mv ~/temp.html /data/web_static/releases/test/index.html
 # Create a symbolic link /data/web_static/current linked to the /data/web_static/releases/test/ folder. If the symbolic link already exists, it should be deleted and recreated every time the script is ran.
-ln -s /data/web_static/releases/test/ /data/web_static/current
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 # Give ownership of the /data/ folder to the ubuntu user AND group (you can assume this user and group exist). This should be recursive; everything inside should be created/owned by this user/group.
 chown -R ubuntu:ubuntu /data/
 # Update the Nginx configuration to serve the content of /data/web_static/current/ to hbnb_static (ex: https://mydomainname.tech/hbnb_static). 
-sed -i 's|^server {|server {\nadd_header X-Served-By $hostname;\nlocation /hbnb_static {\n    alias /data/web_static/current/;\n}|' /etc/nginx/sites-enabled/default
+sed -i 's|^server {|server {\n\location /hbnb_static {\n    alias /data/web_static/current/;\n}|' /etc/nginx/sites-enabled/default
 # Don’t forget to restart Nginx after updating the configuration:
 service nginx restart
