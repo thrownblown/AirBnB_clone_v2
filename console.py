@@ -44,15 +44,15 @@ class HBNBCommand(cmd.Cmd):
             my_list = line.split(" ")
             clss = my_list[0]
             my_list = my_list[1:]
-            for item in my_list:
+            for i, item in enumerate(my_list):
                 item = item.split("=")
-                if '"' in item[1] and item[1][1] == '"' and item[1][-1] == '"':
-                    if '"' in item[1]:
+                if '"' in item[1] and item[1][0] == '"' and item[1][-1] == '"':
+                    if '"' in item[1][1:-1]:
                         item[1] = item[1][1:-1]
                         item[1] = item[1].replace('"', '\"')
                         item[1] = '"{}"'.format(item[1])
                     item[1] = item[1].replace("_", " ")
-                    item = "=".join(item)
+                my_list[i] = "=".join(item)
 
             my_list = ", ".join(my_list)
             obj = eval("{}({})".format(clss, my_list))

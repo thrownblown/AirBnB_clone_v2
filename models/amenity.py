@@ -13,12 +13,3 @@ class Amenity(BaseModel, Base):
     """
     __tablename__ = 'amenities'
     name = Column('name', String(128), nullable=False)
-
-    # @property
-    # def amenities(self):
-    #     return self.amenities
-
-    # @amenities.setter
-    # def amenities(self, amenities):
-    #     if
-    #     self.amenities = amenities
