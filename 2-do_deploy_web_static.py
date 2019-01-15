@@ -32,15 +32,15 @@ def do_deploy(archive_path):
         fn = archive_path.split('/')[-1].split('.')[0]
         dr = "/data/web_static/releases/"
 
-        run("mkdir -p {}{}/".format(dr, fn))
-        run("tar -xzf /tmp/{}.tgz -C {}/".format(fn, dn))
+        sudo("mkdir -p {}{}/".format(dr, fn))
+        sudo("tar -xzf /tmp/{}.tgz -C {}/".format(fn, dn))
 
-        run("mv {}/web_static/* {}".format(dn, dn))
+        sudo("mv {}/web_static/* {}".format(dn, dn))
 
-        run("rm /tmp/{}.tgz".format(fn))
-        run("rmdir {}/web_static".format(dn))
-        run("rm -rf /data/web_static/current")
-        run("ln -s {} /data/web_static/current".format(dn))
+        sudo("rm /tmp/{}.tgz".format(fn))
+        sudo("rmdir {}/web_static".format(dn))
+        sudo("rm -rf /data/web_static/current")
+        sudo("ln -s {} /data/web_static/current".format(dn))
         return True
     except:
         return False
