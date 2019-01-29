@@ -15,9 +15,9 @@ def hello():
 
 @app.route("/hbnb")
 def hbnb():
-    """ Just returns HBNB """
+    """ Just returns HBNB on a different route """
     return "HBNB"
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     app.run("0.0.0.0")
