@@ -20,9 +20,9 @@ def hbnb():
 
 
 @app.route("/c/<text>")
-def show_user_profile(text):
+def c_route(text):
     """ show the <text> to the user """
-    return 'C %s' % text.replace("_", " ")
+    return "C %s" % text.replace("_", " ")
 
 
 if __name__ == "__main__":
