@@ -44,6 +44,12 @@ def template_route(num):
     return render_template("5-number.html", n=num)
 
 
+@app.route("/number_odd_or_even/<int:num>")
+def odd_route(num):
+    """ renders template with the given id and its oddness """
+    return render_template("6-number_odd_or_even.html", n=num)
+
+
 
 if __name__ == "__main__":
     app.run("0.0.0.0")
