@@ -51,6 +51,7 @@ def odd_route(num):
     return render_template("6-number_odd_or_even.html", n=num)
 
 
+@app.route("/states")
 @app.route("/states_list")
 def list_states():
     """ returns html of all of the states """
@@ -67,13 +68,15 @@ def list_cities_by_states():
     return render_template('8-cities_by_states.html', states=list(states))
 
 
-@app.route("/states/")
 @app.route("/states/<stateid>")
 def states_cities(stateid=None):
     """ lists all of the cities by states """
     storage.reload()
     objs = storage.all("State")
-    state = objs[stateid]
+    if stateid:
+        state = objs["State.{}".format(stateid)]
+    else:
+        state = None
 
     return render_template(
         '9-states.html',
