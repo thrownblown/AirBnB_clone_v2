@@ -51,7 +51,7 @@ def odd_route(num):
     return render_template("6-number_odd_or_even.html", n=num)
 
 
-@app.route('/states_list', strict_slashes=False)
+@app.route("/states_list")
 def list_states():
     """ returns html of all of the states """
     storage.reload()
