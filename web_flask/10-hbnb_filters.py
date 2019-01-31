@@ -89,9 +89,9 @@ def states_cities(stateid=None):
 @app.route('/hbnb_filters')
 def filter_route():
     """ returns html of all of the states, cities and amenities"""
-    states = storage.all('State')
-    cities = storage.all('City')
-    amenities = storage.all('Amenity')
+    states = storage.all('State').values()
+    cities = storage.all('City').values()
+    amenities = storage.all('Amenity').values()
     return render_template(
         '10-hbnb_filters.html',
         states=states,
