@@ -2,6 +2,7 @@
 """SQLAlchemy storage module
 """
 import os
+import sys
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, MetaData
 from models.base_model import Base
@@ -49,6 +50,8 @@ class DBStorage:
         """
         ret_dict = {}
         if cls:
+            if type(cls) == str:
+                cls = getattr(sys.modules[__name__], cls)
             query = self.__session.query(cls).all()
         else:
             query = []
