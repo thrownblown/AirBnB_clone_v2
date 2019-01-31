@@ -22,4 +22,4 @@ class State(BaseModel, Base):
             """ cities getter from FS
             """
             objs = models.storage.all(City)
-            return ([c for c in objs if c.state_id == self.id])
+            return ([c for c in objs if objs[c].state_id == self.id])
