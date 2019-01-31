@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 """SQLAlchemy storage module
 """
-
-import json
 import os
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, MetaData
@@ -95,3 +93,6 @@ class DBStorage:
         if obj is None:
             cls = type(obj)
             self.__session.query(cls).filter(id=obj.id).delete()
+
+    def close(self):
+        self.__session.close()
