@@ -73,8 +73,13 @@ def states_cities(stateid=None):
     """ lists all of the cities by states """
     storage.reload()
     objs = storage.all("State")
+
     if stateid:
-        state = objs["State.{}".format(stateid)]
+        try:
+            state = objs["State.{}".format(stateid)]
+        except KeyError:
+            state = None
+            stateid = None
     else:
         state = None
 
