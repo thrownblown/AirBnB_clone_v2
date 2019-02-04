@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ flask app web server listening on 0.0.0.0 on port 5000 """
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 from models import storage
 
 
@@ -12,6 +12,12 @@ app.url_map.strict_slashes = False
 def hello():
     """ Well Hello There """
     return "Hello HBNB!"
+
+
+@app.route('/styles/<path:path>')
+def static_file(path):
+    """ static css path """
+    return send_from_directory('static', path)
 
 
 @app.route("/hbnb")
@@ -89,6 +95,7 @@ def states_cities(stateid=None):
 @app.route('/hbnb_filters')
 def filter_route():
     """ returns html of all of the states, cities and amenities"""
+    # import pdb; pdb.set_trace()
     states = storage.all('State').values()
     cities = storage.all('City').values()
     amenities = storage.all('Amenity').values()
